@@ -61,56 +61,49 @@ class MainPage extends StatelessWidget {
                   );
           },
         ),
+    // Stack(
+    // children: [
+    // AnimatedOpacity(
+    //   duration: const Duration(milliseconds: 800),
+    //   opacity: aboutPage != null ? 1 : 0,
+    //   curve: Curves.easeInCirc,
+    //   child: AboutUs(aboutPage),
+    // ),
         extendBodyBehindAppBar: true,
         body: AsyncBuilder<AboutPages?>(
           stream: mainPageBloc.aboutUsMode,
           builder: (context, aboutPage) {
             final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
-            return Stack(
-              children: [
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 800),
-                  opacity: aboutPage != null ? 1 : 0,
-                  curve: Curves.easeInCirc,
-                  child: AboutUs(aboutPage),
-                ),
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 800),
-                  opacity: aboutPage == null ? 1 : 0,
-                  curve: Curves.easeInCirc,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: isLargerThanMobile ? 16 : 0),
-                    child: Stack(
-                      children: [
-                        ScrollablePositionedList.builder(
-                          itemCount: PageName.values.length,
-                          shrinkWrap: true,
-                          itemScrollController: itemScrollController,
-                          itemPositionsListener: itemPositionsListener,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                              height: MediaQuery.sizeOf(context).height,
-                              child: switch (index) {
-                                0 => const LittyKittyStartView(),
-                                1 => const SilicateView(),
-                                2 => const BentoniteNatural(),
-                                3 => const BentoniteLavend(),
-                                4 => const LittyKittyEndView(),
-                                _ => const LittyKittyEndView(),
-                              },
-                            );
-                          },
-                        ),
-                        if (ResponsiveBreakpoints.of(context).largerThan(TABLET))
-                          Padding(
-                            padding: const EdgeInsets.only(right: 36, left: 16),
-                            child: RadioButtons(itemScrollController: itemScrollController),
-                          ),
-                      ],
-                    ),
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: isLargerThanMobile ? 16 : 0),
+              child: Stack(
+                children: [
+                  ScrollablePositionedList.builder(
+                    itemCount: PageName.values.length,
+                    shrinkWrap: true,
+                    itemScrollController: itemScrollController,
+                    itemPositionsListener: itemPositionsListener,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        height: MediaQuery.sizeOf(context).height,
+                        child: switch (index) {
+                          0 => const LittyKittyStartView(),
+                          1 => const SilicateView(),
+                          2 => const BentoniteNatural(),
+                          3 => const BentoniteLavend(),
+                          4 => const LittyKittyEndView(),
+                          _ => const LittyKittyEndView(),
+                        },
+                      );
+                    },
                   ),
-                ),
-              ],
+                  if (ResponsiveBreakpoints.of(context).largerThan(TABLET))
+                    Padding(
+                      padding: const EdgeInsets.only(right: 36, left: 16),
+                      child: RadioButtons(itemScrollController: itemScrollController),
+                    ),
+                ],
+              ),
             );
           },
         ),
