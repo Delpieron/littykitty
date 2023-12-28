@@ -33,50 +33,26 @@ class SilicateView extends StatelessWidget {
           columnOrder: 2,
           child: Expanded(
             flex: 3,
-            child: AsyncBuilder<int>(
-              stream: bloc.selectedPage.stream.distinct((previous, next) => previous == next),
-              initial: 0,
-              builder: (context, i) {
-                return Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: isLargerThanMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
-                  mainAxisAlignment: !isLargerThanMobile ? MainAxisAlignment.start : MainAxisAlignment.center,
-                  crossAxisAlignment: isLargerThanMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
-                  children: [
-                    AnimatedOpacity(
-                      duration: const Duration(milliseconds: 800),
-                      opacity: i! > 1 ? 0 : 1,
-                      child: AnimatedSlide(
-                        duration: const Duration(milliseconds: 800),
-                        curve: Curves.ease,
-                        offset: Offset(i > 1 ? -1 : 0, 0),
-                        child: Text(
-                          'SILICATE',
-                          textAlign: textAlign,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ),
-                    ),
-                    AnimatedOpacity(
-                      duration: const Duration(milliseconds: 800),
-                      opacity: i > 1 ? 0 : 1,
-                      child: AnimatedSlide(
-                        duration: const Duration(milliseconds: 800),
-                        curve: Curves.ease,
-                        offset: Offset(0, i > 1 ? -1 : 0),
-                        child: SizedBox(
-                          width: MediaQuery.sizeOf(context).width * (isLargerThanMobile ? .3 : .9),
-                          child: Text(
-                            Strings.silicate,
-                            textAlign: textAlign,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: isLargerThanMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+              mainAxisAlignment: !isLargerThanMobile ? MainAxisAlignment.start : MainAxisAlignment.center,
+              crossAxisAlignment: isLargerThanMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'SILICATE',
+                  textAlign: textAlign,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * (isLargerThanMobile ? .3 : .9),
+                  child: Text(
+                    Strings.silicate,
+                    textAlign: textAlign,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
