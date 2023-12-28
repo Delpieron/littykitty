@@ -66361,7 +66361,7 @@ A.GX.prototype={
 I(a){var s=null,r=1073741823,q=A.em(a).dq("MOBILE"),p=q?B.aN:B.ce,o=A.b3(a,B.R,t.w).w.a,n=A.em(a).dq("MOBILE")?B.hN:B.uC,m=o.a,l=o.b,k=A.vP(A.eY(s,l*0.1,m*0.1),s,1,0,!0,s,s,r),j=!q?B.bZ:B.cU,i=q?B.cx:B.ao,h=A.eq("SILICATE",s,A.a4(a).p3.r,p),g=q?0.3:0.9
 j=A.vP(A.Ub(A.rU(A.a([h,A.eY(A.eq("Silikatowy \u017cwirek dla kot\xf3w charakteryzuj\u0105cy si\u0119 bardzo wysok\u0105 ch\u0142onno\u015bci\u0105 i wydajno\u015bci\u0105. Nasz \u017cwirek jest bezzapachowy i pozbawiony py\u0142u, dlatego zmniejsza ryzyko wyst\u0105pienia reakcji alergicznych u ludzi i kot\xf3w.",s,A.a4(a).p3.z,p),s,m*g)],t.E),i,j,B.aX,s,s,B.ah),3),s,s,2,!0,s,s,r)
 i=m>620&&m<1500?6:4
-return A.ahx(A.a([k,j,A.vP(A.Ub(A.acI("assets/bags/produktdohubuna.webp",s,!1,l*0.8,m*0.5),i),s,s,1,!0,s,s,r)],t.rH),n,B.cU,B.c_)}}
+return A.ahx(A.a([k,j,A.vP(A.Ub(A.acI("assets/bags/natural2.webp",s,!1,l*0.8,m*0.5),i),s,s,1,!0,s,s,r)],t.rH),n,B.cU,B.c_)}}
 A.Fp.prototype={
 I(a){var s,r,q,p,o=null,n=A.em(a).dq("MOBILE"),m=A.b3(a,B.R,t.w).w.a.a,l=m>850
 if(l)s=160

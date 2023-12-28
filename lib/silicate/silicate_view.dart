@@ -62,7 +62,8 @@ class SilicateView extends StatelessWidget {
             flex: size.width > 620 && size.width < 1500 ? 6 : 4,
             child: Image.asset(
               // gaplessPlayback: true,
-              'assets/bags/produktdohubuna.webp',
+              'assets/bags/natural2.webp',
+              // 'assets/bags/produktdohubuna.webp',
               width: size.width * .5,
               height: size.height * .8,
             ),
