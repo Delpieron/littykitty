@@ -12,8 +12,8 @@ class SilicateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
-    final bloc = GetIt.I.get<MainPageBloc>();
     final textAlign = isLargerThanMobile ? TextAlign.start : TextAlign.center;
+    final size = MediaQuery.sizeOf(context);
     return ResponsiveRowColumn(
       layout: ResponsiveBreakpoints.of(context).largerThan(MOBILE)
           ? ResponsiveRowColumnType.ROW
@@ -25,8 +25,8 @@ class SilicateView extends StatelessWidget {
           columnOrder: 0,
           columnFlex: 1,
           child: SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.1,
-            height: MediaQuery.sizeOf(context).height * 0.1,
+            width: size.width * 0.1,
+            height: size.height * 0.1,
           ),
         ),
         ResponsiveRowColumnItem(
@@ -45,7 +45,7 @@ class SilicateView extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(
-                  width: MediaQuery.sizeOf(context).width * (isLargerThanMobile ? .3 : .9),
+                  width: size.width * (isLargerThanMobile ? .3 : .9),
                   child: Text(
                     Strings.silicate,
                     textAlign: textAlign,
@@ -59,12 +59,12 @@ class SilicateView extends StatelessWidget {
         ResponsiveRowColumnItem(
           columnOrder: 1,
           child: Expanded(
-            flex: MediaQuery.sizeOf(context).width > 620 && MediaQuery.sizeOf(context).width < 1500 ? 6 : 4,
+            flex: size.width > 620 && size.width < 1500 ? 6 : 4,
             child: Image.asset(
-              gaplessPlayback: true,
+              // gaplessPlayback: true,
               'assets/bags/produktdohubuna.webp',
-              width: MediaQuery.sizeOf(context).width * .5,
-              height: MediaQuery.sizeOf(context).height * .8,
+              width: size.width * .5,
+              height: size.height * .8,
             ),
           ),
         ),

@@ -34,7 +34,7 @@ class PredefinedAppbar extends StatelessWidget implements PreferredSizeWidget {
               ? 70
               : 110,
       toolbarHeight: width > 850
-          ? 130
+          ? 100
           : width < 550
               ? 50
               : 80,
