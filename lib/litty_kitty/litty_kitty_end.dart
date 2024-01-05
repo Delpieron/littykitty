@@ -14,30 +14,29 @@ class LittyKittyEndView extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
     return AsyncBuilder<int>(
-      stream: mainBloc.selectedPage.stream.distinct((previous, next) => previous == next),
+      stream: mainBloc.selectedPage.stream.distinct((previous, next) =>true),
       initial: 0,
       builder: (context, i) {
-        return AnimatedOpacity(
-          duration: const Duration(milliseconds: 400),
-          opacity: i! == 4 ? 1 : 1,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Image(
-                image: const AssetImage('assets/bags/worki_end.webp'),
-                height: size.height * getBagsHeight(context),
-                width: size.width * (ResponsiveBreakpoints.of(context).largerThan(MOBILE) ? (ResponsiveBreakpoints.of(context).largerThan(TABLET) ? .6: .9) : 1.4),
-                fit: BoxFit.fill,
-              ),
-              if (!isLargerThanMobile) SizedBox(height: size.height * .2),
-              Image(
-                image: const AssetImage('assets/cats/koty-15.webp'),
-                height: size.height * getImageHeight(context),
-                width: isLargerThanMobile ? null : MediaQuery.sizeOf(context).width * 0.7,
-                fit: BoxFit.fill,
-              ),
-            ],
-          ),
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Image(
+              image: const AssetImage('assets/bags/worki_end.webp'),
+              height: size.height * getBagsHeight(context),
+              width: size.width *
+                  (ResponsiveBreakpoints.of(context).largerThan(MOBILE)
+                      ? (ResponsiveBreakpoints.of(context).largerThan(TABLET) ? .7 : .9)
+                      : 2),
+              fit: BoxFit.fitHeight,
+            ),
+            if (!isLargerThanMobile) SizedBox(height: size.height * .2),
+            Image(
+              image: const AssetImage('assets/cats/koty-15.webp'),
+              height: size.height * getImageHeight(context),
+              width: isLargerThanMobile ? null : MediaQuery.sizeOf(context).width * 0.7,
+              fit: BoxFit.fill,
+            ),
+          ],
         );
       },
     );
@@ -51,7 +50,7 @@ class LittyKittyEndView extends StatelessWidget {
     if (sizes.largerThan(MOBILE)) {
       return .3;
     }
-    return .3;
+    return .2;
   }
 
   double getBagsHeight(BuildContext context) {
@@ -63,11 +62,14 @@ class LittyKittyEndView extends StatelessWidget {
     if (size.width < 500) {
       return .3;
     }
+    if (size.width < 1400 && size.width >= 1100) {
+      return .67;
+    }
     if (sizes.largerThan(TABLET)) {
       return .65;
     }
     if (sizes.largerThan(MOBILE)) {
-      return .55;
+      return .5;
     }
     return .5;
   }

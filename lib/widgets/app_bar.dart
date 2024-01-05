@@ -13,31 +13,58 @@ class PredefinedAppbar extends StatelessWidget implements PreferredSizeWidget {
   const PredefinedAppbar({
     required this.itemScrollController,
     required this.mainPageBloc,
+    required this.shrinkLogo,
     super.key,
   });
 
   final ItemScrollController itemScrollController;
   final MainPageBloc mainPageBloc;
+  final bool shrinkLogo;
 
   @override
   Size get preferredSize => const Size.fromHeight(_maxAppbarHeight);
+
+  double _logoHeight(double width) {
+    if (width > 850) {
+      return 100;
+    }
+    if (width < 550) {
+      return 50;
+    }
+    return 80;
+  }
+
+  double _logoWidth(double width) {
+    if (width > 850) {
+      return 160;
+    }
+    if (width < 550) {
+      return 70;
+    }
+    return 110;
+  }
 
   @override
   Widget build(BuildContext context) {
     final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
     final width = MediaQuery.sizeOf(context).width;
+    final multiplier = ResponsiveBreakpoints.of(context).largerThan(TABLET) ? .7 : .65;
+    final logoHeight = _logoHeight(width);
+    final logoWidth = _logoWidth(width);
     return AppBar(
       forceMaterialTransparency: true,
-      leadingWidth: width > 850
-          ? 160
-          : width < 550
-              ? 70
-              : 110,
-      toolbarHeight: width > 850
-          ? 100
-          : width < 550
-              ? 50
-              : 80,
+      leadingWidth: logoWidth * (shrinkLogo && isLargerThanMobile ? multiplier : 1),
+      // width > 850
+      //     ? 160
+      //     : width < 550
+      //     ? 70
+      //     : 110,
+      toolbarHeight: logoHeight * (shrinkLogo && isLargerThanMobile ? multiplier : 1),
+      // width > 850
+      //     ? 100
+      //     : width < 550
+      //     ? 50
+      //     : 80,
       primary: false,
       foregroundColor: Colors.white,
       backgroundColor: Colors.transparent,
@@ -55,26 +82,20 @@ class PredefinedAppbar extends StatelessWidget implements PreferredSizeWidget {
           );
         },
         child: Padding(
-          padding: EdgeInsets.only(left: isLargerThanMobile ? 32 : 16, top: 8),
-          child:
-          // SvgPicture.asset(
-          //     'assets/kitty_logo2.svg',
-          //     semanticsLabel: 'LittyKityyLogo',
-          //   colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
-          // ),
-          Image(
-            image: AssetImage('assets/kitty_logoF.png'),
+          padding: EdgeInsets.only(left: isLargerThanMobile ? 20 : 16, top: 8),
+          child: Image(
+            image: const AssetImage('assets/kitty_logoF.png'),
             filterQuality: FilterQuality.high,
             width: width > 850
                 ? 160
                 : width < 550
-                ? 70
-                : 110,
+                    ? 70
+                    : 110,
             height: width > 850
                 ? 130
                 : width < 550
-                ? 50
-                : 80,
+                    ? 50
+                    : 80,
             fit: BoxFit.fill,
           ),
         ),

@@ -5,11 +5,13 @@ class ImagesCarousel extends StatelessWidget {
   const ImagesCarousel({
     this.imageName,
     this.imgNames,
+    this.showImageFromBottom = false,
     super.key,
   });
 
   final String? imageName;
   final Map<String, int>? imgNames;
+  final bool showImageFromBottom;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class ImagesCarousel extends StatelessWidget {
     if (imgNames != null) {
       return _CarouselWithIndicatorDemo(imgNames!);
     }
-    return _SimpleImage(imageName!);
+    return _SimpleImage(imageName: imageName!,showImageFromBottom: showImageFromBottom);
   }
 }
 
@@ -61,16 +63,22 @@ class _CarouselWithIndicatorState extends State<_CarouselWithIndicatorDemo> {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Image.asset(
-                  gaplessPlayback: true,
-                  'assets/bags/$item.webp',
-                  height: constraints.maxHeight * .85,
-                  fit: BoxFit.fitHeight,
+                Padding(
+                  padding: item == 'natural0' ? const EdgeInsets.only(left: 48) : EdgeInsets.zero,
+                  child: Image.asset(
+                    gaplessPlayback: true,
+                    'assets/bags/$item.webp',
+                    height: constraints.maxHeight * .85,
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
-                Text(
-                  '${widget.imgNames[item]} L',
-                  style: Theme.of(context).textTheme.titleMedium,
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: MediaQuery.sizeOf(context).width > 420 ? EdgeInsets.zero : const EdgeInsets.only(top: 8),
+                  child: Text(
+                    '${widget.imgNames[item]} L',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -100,9 +108,10 @@ class _CarouselWithIndicatorState extends State<_CarouselWithIndicatorDemo> {
 }
 
 class _SimpleImage extends StatelessWidget {
-  const _SimpleImage(this.imageName);
+  const _SimpleImage({required this.imageName,required this.showImageFromBottom});
 
   final String imageName;
+  final bool showImageFromBottom;
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +122,15 @@ class _SimpleImage extends StatelessWidget {
       width: size.width * .8 ,
       height: size.height * .9,
     );
+    if(showImageFromBottom){
+      return Image.asset(
+        gaplessPlayback: true,
+        'assets/bags/$imageName.webp',
+        fit: BoxFit.fill,
+        // width: size.width * .8 ,
+        // height: size.height * .9,
+      );
+    }
     late final double padding;
     bool changePadding = false;
     switch(imageName){

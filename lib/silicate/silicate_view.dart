@@ -6,11 +6,14 @@ import 'package:littykitty2/strings.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
 
+import '../base_view_with_text.dart';
+
 class SilicateView extends StatelessWidget {
   const SilicateView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BaseViewWithText(title: 'SILICATE',description:Strings.silicate,imageName: 'produktdohubuna',);
     final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
     final textAlign = isLargerThanMobile ? TextAlign.start : TextAlign.center;
     final size = MediaQuery.sizeOf(context);

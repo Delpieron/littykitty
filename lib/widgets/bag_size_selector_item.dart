@@ -22,7 +22,7 @@ class BagSizeSelectorItem extends StatelessWidget {
         height: 70,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(40)),
-          color: isSelected ? Colors.purple : Colors.transparent,
+          color: isSelected ? const Color.fromRGBO(	228, 15, 149, 1) : Colors.transparent,
         ),
         child: Center(child: child),
       ),

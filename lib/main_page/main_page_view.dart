@@ -34,84 +34,104 @@ class MainPage extends StatelessWidget {
     }
     final mainPageBloc = GetIt.I.get<MainPageBloc>();
     final itemScrollController = ItemScrollController();
+
     itemPositionsListener.itemPositions.addListener(() {
-      if (mainPageBloc.selectedPage.value != itemPositionsListener.itemPositions.value.first.index) {
-        mainPageBloc.selectedPage.add(itemPositionsListener.itemPositions.value.first.index);
+      final item = itemPositionsListener.itemPositions.value.first;
+      // if(item.index == 0 && item.itemTrailingEdge == 1){
+      //   mainPageBloc.shouldShrinkLogo.add(false);
+      // }
+      // mainPageBloc.shouldShrinkLogo.add(true);
+      if (mainPageBloc.selectedPage.value != item.index) {
+        mainPageBloc.selectedPage.add(item.index);
       }
     });
     final size = MediaQuery.sizeOf(context);
     return ResponsiveBreakpoints.builder(
-      child: Scaffold(
-        appBar: PredefinedAppbar(
-          itemScrollController: itemScrollController,
-          mainPageBloc: mainPageBloc,
-        ),
-        drawerEdgeDragWidth: 80,
-        endDrawer: Builder(
-          builder: (context) {
-            return ResponsiveBreakpoints.of(context).largerThan(MOBILE)
-                ? const SizedBox.shrink()
-                : Drawer(
-                    width: size.width / 3,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    child: ListView(
-                      padding: const EdgeInsets.only(top: 32),
-                      children: getActions(),
-                    ),
-                  );
-          },
-        ),
-    // Stack(
-    // children: [
-    // AnimatedOpacity(
-    //   duration: const Duration(milliseconds: 800),
-    //   opacity: aboutPage != null ? 1 : 0,
-    //   curve: Curves.easeInCirc,
-    //   child: AboutUs(aboutPage),
-    // ),
-        extendBodyBehindAppBar: true,
-        body: AsyncBuilder<AboutPages?>(
-          stream: mainPageBloc.aboutUsMode,
-          builder: (context, aboutPage) {
-            final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: isLargerThanMobile ? 16 : 0),
-              child: Stack(
-                children: [
-                  ScrollablePositionedList.builder(
-                    itemCount: PageName.values.length,
-                    shrinkWrap: true,
-                    itemScrollController: itemScrollController,
-                    itemPositionsListener: itemPositionsListener,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: MediaQuery.sizeOf(context).height,
-                        child: switch (index) {
-                          0 => const LittyKittyStartView(),
-                          1 => const SilicateView(),
-                          2 => const BentoniteNatural(),
-                          3 => const BentoniteLavend(),
-                          4 => const LittyKittyEndView(),
-                          _ => const LittyKittyEndView(),
-                        },
+      child: AsyncBuilder<int>(
+        stream: mainPageBloc.selectedPage.stream,
+        builder: (context, index) {
+          return Scaffold(
+            appBar: PredefinedAppbar(
+              itemScrollController: itemScrollController,
+              mainPageBloc: mainPageBloc,
+              shrinkLogo:index != 0,
+            ),
+            drawerEdgeDragWidth: 80,
+            endDrawer: Builder(
+              builder: (context) {
+                return ResponsiveBreakpoints.of(context).largerThan(MOBILE)
+                    ? const SizedBox.shrink()
+                    : Drawer(
+                        width: size.width / 3,
+                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                        child: ListView(
+                          padding: const EdgeInsets.only(top: 32),
+                          children: getActions(),
+                        ),
                       );
-                    },
-                  ),
-                  if (ResponsiveBreakpoints.of(context).largerThan(TABLET))
-                    Padding(
-                      padding: const EdgeInsets.only(right: 36, left: 16),
-                      child: RadioButtons(itemScrollController: itemScrollController),
+              },
+            ),
+            extendBodyBehindAppBar: true,
+            body: AsyncBuilder<AboutPages?>(
+              stream: mainPageBloc.aboutUsMode,
+              builder: (context, aboutPage) {
+                final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
+                return Stack(
+                  children: [
+                    AnimatedOpacity(
+                      duration: const Duration(milliseconds: 800),
+                      opacity: aboutPage != null ? 1 : 0,
+                      curve: Curves.easeInCirc,
+                      child: AboutUs(aboutPage),
                     ),
-                ],
-              ),
-            );
-          },
-        ),
+                    AnimatedOpacity(
+                      duration: const Duration(milliseconds: 800),
+                      opacity: aboutPage == null ? 1 : 0,
+                      curve: Curves.easeInCirc,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: isLargerThanMobile ? 16 : 0),
+                        child: Stack(
+                          children: [
+                            ScrollablePositionedList.builder(
+                              itemCount: PageName.values.length,
+                              shrinkWrap: true,
+                              itemScrollController: itemScrollController,
+                              itemPositionsListener: itemPositionsListener,
+                              itemBuilder: (context, index) {
+                                mainPageBloc.shouldShrinkLogo.add(index != 0);
+                                return SizedBox(
+                                  height: MediaQuery.sizeOf(context).height,
+                                  child: switch (index) {
+                                    0 => const LittyKittyStartView(),
+                                    1 => const SilicateView(),
+                                    2 => const BentoniteNatural(),
+                                    3 => const BentoniteLavend(),
+                                    4 => const LittyKittyEndView(),
+                                    _ => const LittyKittyEndView(),
+                                  },
+                                );
+                              },
+                            ),
+                            if (ResponsiveBreakpoints.of(context).largerThan(TABLET))
+                              Padding(
+                                padding: const EdgeInsets.only(right: 36, left: 16),
+                                child: RadioButtons(itemScrollController: itemScrollController),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
       ),
       breakpoints: [
         const Breakpoint(start: 0, end: 850, name: MOBILE),
-        const Breakpoint(start: 851, end: 1400, name: TABLET),
-        const Breakpoint(start: 1201, end: 1920, name: DESKTOP),
+        const Breakpoint(start: 851, end: 1500, name: TABLET),
+        const Breakpoint(start: 1501, end: 1920, name: DESKTOP),
       ],
     );
   }

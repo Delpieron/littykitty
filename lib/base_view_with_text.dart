@@ -7,11 +7,13 @@ class BaseViewWithText extends StatelessWidget {
   const BaseViewWithText({
     required this.description,
     required this.title,
+    this.title2,
     this.imageName,
     super.key,
     this.underTextWidget,
     this.imgNames,
     this.showImageAboveTitle = false,
+    this.showImageFromBottom = false,
   });
 
   final Widget? underTextWidget;
@@ -19,17 +21,16 @@ class BaseViewWithText extends StatelessWidget {
   final Map<String, int>? imgNames;
   final String description;
   final String title;
+  final String? title2;
   final bool showImageAboveTitle;
+  final bool showImageFromBottom;
 
   @override
   Widget build(BuildContext context) {
     final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
     final textAlign = isLargerThanMobile ? TextAlign.start : TextAlign.center;
-    final titleAlignment = !isLargerThanMobile
-        ? Alignment.topCenter
-        : showImageAboveTitle
-            ? Alignment.bottomLeft
-            : Alignment.bottomLeft;
+    final titleAlignment = isLargerThanMobile ? Alignment.centerLeft : Alignment.center;
+    final size = MediaQuery.sizeOf(context);
     return ResponsiveRowColumn(
       layout: isLargerThanMobile ? ResponsiveRowColumnType.ROW : ResponsiveRowColumnType.COLUMN,
       rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -38,37 +39,24 @@ class BaseViewWithText extends StatelessWidget {
         ResponsiveRowColumnItem(
           columnOrder: 0,
           columnFlex: 1,
+          rowFlex: 1,
           child: SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.1,
-            height: MediaQuery.sizeOf(context).height * 0.1,
+            width: size.width * (isLargerThanMobile ? 0.1 : 0.05),
+            height: size.height * (isLargerThanMobile ? 0.2 : 0.05),
           ),
         ),
         ResponsiveRowColumnItem(
           columnOrder: 2,
           child: Expanded(
-            flex: 3,
+            flex: ResponsiveBreakpoints.of(context).largerThan(TABLET) ? 4 : 3,
             child: Column(
               mainAxisAlignment: !isLargerThanMobile ? MainAxisAlignment.start : MainAxisAlignment.center,
               crossAxisAlignment: isLargerThanMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width * (isLargerThanMobile ? .3 : .8),
-                  height: !isLargerThanMobile
-                      ? null
-                      : showImageAboveTitle
-                          ? 300
-                          : 150,
+                Padding(
+                  padding: size.width <= 420 ? const EdgeInsets.only(top: 8) : EdgeInsets.zero,
                   child: Stack(
                     children: [
-                      if (showImageAboveTitle && isLargerThanMobile)
-                        const Align(
-                          alignment: Alignment.topCenter,
-                          child: Image(
-                            image: AssetImage('assets/cats/koty-02.webp'),
-                            height: 190,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
                       Align(
                         alignment: titleAlignment,
                         child: Text(
@@ -78,20 +66,42 @@ class BaseViewWithText extends StatelessWidget {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
+                      if (title2 != null)
+                        Align(
+                          alignment: titleAlignment,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              top: (ResponsiveBreakpoints.of(context).largerThan(TABLET)
+                                  ? size.height > 800 ? 88 : 50
+                                  : size.width <= 420 || size.height < 800
+                                      ? 36
+                                      : 50),
+                            ),
+                            child: Text(
+                              title2!,
+                              overflow: TextOverflow.fade,
+                              textAlign: textAlign,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width * (isLargerThanMobile ? .3 : .9),
-                  child: Text(
-                    description,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: textAlign,
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: SizedBox(
+                    width: size.width * .9, //(isLargerThanMobile ? .3 : .9),
+                    child: Text(
+                      description,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: textAlign,
+                    ),
                   ),
                 ),
                 if (underTextWidget != null && isLargerThanMobile)
                   Padding(
-                    padding: EdgeInsets.only(top: 32, right: MediaQuery.sizeOf(context).width * .06),
+                    padding: EdgeInsets.only(top: 32, right: size.width * .06),
                     child: underTextWidget,
                   ),
               ],
@@ -100,16 +110,54 @@ class BaseViewWithText extends StatelessWidget {
         ),
         ResponsiveRowColumnItem(
           columnOrder: 1,
-          child: Expanded(
-            flex: !ResponsiveBreakpoints.of(context).largerThan(MOBILE)
-                ? 5
-                : MediaQuery.sizeOf(context).width > 620 && MediaQuery.sizeOf(context).width < 1500
-                    ? 6
-                    : 4,
-            child: ImagesCarousel(imageName: imageName, imgNames: imgNames),
+          child:
+              // Expanded(
+              // flex: !isLargerThanMobile
+              //     ? 5
+              //     : size.width > 620 && size.width < 1500
+              //         ? 6
+              //         : 4,
+              // child:
+              _ImageCarousel(
+            size,
+            ImagesCarousel(imageName: imageName, imgNames: imgNames),
+            isLargerThanMobile: isLargerThanMobile,
+            showImageFromBottom: showImageFromBottom,
           ),
+          // ),
         ),
       ],
+    );
+  }
+}
+
+class _ImageCarousel extends StatelessWidget {
+  const _ImageCarousel(
+    this.size,
+    this.child, {
+    required this.isLargerThanMobile,
+    required this.showImageFromBottom,
+  });
+
+  final Size size;
+  final bool isLargerThanMobile;
+  final bool showImageFromBottom;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (size.width < 550) {
+      return Align(
+        alignment: showImageFromBottom ? Alignment.bottomCenter : Alignment.center,
+        child: child,
+      );
+    }
+    return Expanded(
+      flex: size.width < 1500 ? 6 : 4,
+      child: Align(
+        alignment: showImageFromBottom ? Alignment.bottomCenter : Alignment.center,
+        child: child,
+      ),
     );
   }
 }

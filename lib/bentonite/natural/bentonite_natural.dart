@@ -6,6 +6,7 @@ import 'package:littykitty2/bentonite/natural/bentonite_natural_bloc.dart';
 import 'package:littykitty2/main_page/main_page_bloc.dart';
 import 'package:littykitty2/strings.dart';
 import 'package:littykitty2/widgets/bag_size_selector_item.dart';
+import 'package:littykitty2/widgets/change_liter_dot_row.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
 class BentoniteNatural extends StatelessWidget {
@@ -20,51 +21,20 @@ class BentoniteNatural extends StatelessWidget {
       stream: mainBloc.selectedPage.stream.distinct((previous, next) => previous == next),
       initial: 0,
       builder: (context, i) {
-        return AnimatedOpacity(
-          duration: const Duration(milliseconds: 400),
-          opacity: i! <= 3 ? 1 : 0,
-          child: AsyncBuilder<int>(
-            stream: bloc.selectedSize,
-            initial: 0,
-            builder: (context, sizeIndex) {
-              return BaseViewWithText(
-                showImageAboveTitle: sizeIndex == 2,
-                imageName: isLargerThanMobile ? 'natural$sizeIndex' : null,
-                imgNames: isLargerThanMobile ? null : _imgNames,
-                description: Strings.bentoniteNatural,
-                title: 'BENTONITE\nNATURALNY',
-                underTextWidget: SizedBox(
-                  width: MediaQuery.sizeOf(context).width * .3,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      BagSizeSelectorItem(
-                        onTap: () {
-                          bloc.selectedSize.add(0);
-                        },
-                        isSelected: sizeIndex == 0,
-                        child: Text('5 L', style: Theme.of(context).textTheme.bodyMedium),
-                      ),
-                      BagSizeSelectorItem(
-                        onTap: () {
-                          bloc.selectedSize.add(1);
-                        },
-                        isSelected: sizeIndex == 1,
-                        child: Text('10 L', style: Theme.of(context).textTheme.bodyMedium),
-                      ),
-                      BagSizeSelectorItem(
-                        onTap: () {
-                          bloc.selectedSize.add(2);
-                        },
-                        isSelected: sizeIndex == 2,
-                        child: Text('25 L', style: Theme.of(context).textTheme.bodyMedium),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+        return AsyncBuilder<int>(
+          stream: bloc.selectedSize,
+          initial: 0,
+          builder: (context, sizeIndex) {
+            return BaseViewWithText(
+              showImageAboveTitle: false,
+              imageName: isLargerThanMobile ? 'natural$sizeIndex' : null,
+              imgNames: isLargerThanMobile ? null : _imgNames,
+              description: Strings.bentoniteNatural,
+              title: 'BENTONITE',
+              title2: 'NATURALNY',
+              underTextWidget: ChangeLiterDotRow(sizeIndex: sizeIndex!, bloc: bloc),
+            );
+          },
         );
       },
     );
