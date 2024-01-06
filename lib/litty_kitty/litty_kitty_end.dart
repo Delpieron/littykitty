@@ -13,6 +13,7 @@ class LittyKittyEndView extends StatelessWidget {
     final mainBloc = GetIt.I.get<MainPageBloc>();
     final size = MediaQuery.sizeOf(context);
     final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
+    final imageName = size.width > 800 ? 'worki_end' : 'worki_end_small';
     return AsyncBuilder<int>(
       stream: mainBloc.selectedPage.stream.distinct((previous, next) =>true),
       initial: 0,
@@ -21,7 +22,7 @@ class LittyKittyEndView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Image(
-              image: const AssetImage('assets/bags/worki_end.webp'),
+              image: AssetImage('assets/bags/$imageName.webp'),
               height: size.height * getBagsHeight(context),
               width: size.width *
                   (ResponsiveBreakpoints.of(context).largerThan(MOBILE)
@@ -62,14 +63,17 @@ class LittyKittyEndView extends StatelessWidget {
     if (size.width < 500) {
       return .3;
     }
-    if (size.width < 1400 && size.width >= 1100) {
+    if (size.width < 1500 && size.width >= 1300) {
       return .67;
     }
     if (sizes.largerThan(TABLET)) {
       return .65;
     }
     if (sizes.largerThan(MOBILE)) {
-      return .5;
+      if(size.width >= 1200){
+        return .6;
+      }
+      return .55;
     }
     return .5;
   }

@@ -123,6 +123,7 @@ class BaseViewWithText extends StatelessWidget {
             ImagesCarousel(imageName: imageName, imgNames: imgNames),
             isLargerThanMobile: isLargerThanMobile,
             showImageFromBottom: showImageFromBottom,
+                title: title,
           ),
           // ),
         ),
@@ -137,16 +138,18 @@ class _ImageCarousel extends StatelessWidget {
     this.child, {
     required this.isLargerThanMobile,
     required this.showImageFromBottom,
+    required this.title,
   });
 
   final Size size;
   final bool isLargerThanMobile;
   final bool showImageFromBottom;
   final Widget child;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    if (size.width < 550) {
+    if (size.width < 550 && title != 'SILICATE') {
       return Align(
         alignment: showImageFromBottom ? Alignment.bottomCenter : Alignment.center,
         child: child,
