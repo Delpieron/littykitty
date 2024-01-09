@@ -18,7 +18,7 @@ class BaseViewWithText extends StatelessWidget {
 
   final Widget? underTextWidget;
   final String? imageName;
-  final Map<String, int>? imgNames;
+  final Map<String, double>? imgNames;
   final String description;
   final String title;
   final String? title2;
@@ -72,7 +72,9 @@ class BaseViewWithText extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.only(
                               top: (ResponsiveBreakpoints.of(context).largerThan(TABLET)
-                                  ? size.height > 800 ? 88 : 50
+                                  ? size.height > 800
+                                      ? 88
+                                      : 50 : size.width < 701 && size.width >420 ? 40
                                   : size.width <= 420 || size.height < 800
                                       ? 36
                                       : 50),
@@ -110,20 +112,12 @@ class BaseViewWithText extends StatelessWidget {
         ),
         ResponsiveRowColumnItem(
           columnOrder: 1,
-          child:
-              // Expanded(
-              // flex: !isLargerThanMobile
-              //     ? 5
-              //     : size.width > 620 && size.width < 1500
-              //         ? 6
-              //         : 4,
-              // child:
-              _ImageCarousel(
+          child: _ImageCarousel(
             size,
             ImagesCarousel(imageName: imageName, imgNames: imgNames),
             isLargerThanMobile: isLargerThanMobile,
             showImageFromBottom: showImageFromBottom,
-                title: title,
+            title: title,
           ),
           // ),
         ),

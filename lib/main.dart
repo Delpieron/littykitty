@@ -29,11 +29,11 @@ class MyApp extends StatelessWidget {
     if (width <= 420 || height < 700) {
       return mobileSmallLightTheme;
     }
-    if ((width > 420 && width < 1500) && height < 900) {
+    if ((width > 700 && width < 1500) && height < 900) {
       return mobileLightTheme;
     }
-    if ((width > 420 && width < 1500) || height < 800) {
-      return mobileLightTheme;
+    if ((width > 420 && width < 1500) && height < 900) {
+      return mobileSmallLightTheme;
     }
     return lightTheme;
   }

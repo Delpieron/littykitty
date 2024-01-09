@@ -37,10 +37,6 @@ class MainPage extends StatelessWidget {
 
     itemPositionsListener.itemPositions.addListener(() {
       final item = itemPositionsListener.itemPositions.value.first;
-      // if(item.index == 0 && item.itemTrailingEdge == 1){
-      //   mainPageBloc.shouldShrinkLogo.add(false);
-      // }
-      // mainPageBloc.shouldShrinkLogo.add(true);
       if (mainPageBloc.selectedPage.value != item.index) {
         mainPageBloc.selectedPage.add(item.index);
       }
@@ -129,9 +125,9 @@ class MainPage extends StatelessWidget {
         },
       ),
       breakpoints: [
-        const Breakpoint(start: 0, end: 850, name: MOBILE),
-        const Breakpoint(start: 851, end: 1500, name: TABLET),
-        const Breakpoint(start: 1501, end: 1920, name: DESKTOP),
+        const Breakpoint(start: 0, end: 950, name: MOBILE),
+        const Breakpoint(start: 951, end: 1499, name: TABLET),
+        const Breakpoint(start: 1500, end: 1920, name: DESKTOP),
       ],
     );
   }

@@ -41,7 +41,7 @@ class BentoniteNatural extends StatelessWidget {
   }
 }
 
-final Map<String, int> _imgNames = {
+final Map<String, double> _imgNames = {
   'natural0': 5,
   'natural1': 10,
   'natural2': 25,

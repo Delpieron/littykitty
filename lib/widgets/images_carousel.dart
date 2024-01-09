@@ -10,7 +10,7 @@ class ImagesCarousel extends StatelessWidget {
   });
 
   final String? imageName;
-  final Map<String, int>? imgNames;
+  final Map<String, double>? imgNames;
   final bool showImageFromBottom;
 
   @override
@@ -26,7 +26,7 @@ class ImagesCarousel extends StatelessWidget {
 class _CarouselWithIndicatorDemo extends StatefulWidget {
   const _CarouselWithIndicatorDemo(this.imgNames);
 
-  final Map<String, int> imgNames;
+  final Map<String, double> imgNames;
 
   @override
   State<StatefulWidget> createState() {
@@ -73,7 +73,7 @@ class _CarouselWithIndicatorState extends State<_CarouselWithIndicatorDemo> {
                   ),
                 ),
                 Padding(
-                  padding: MediaQuery.sizeOf(context).width > 420 ? EdgeInsets.zero : const EdgeInsets.only(top: 8),
+                  padding: MediaQuery.sizeOf(context).width > 701 ? EdgeInsets.zero : const EdgeInsets.only(top: 8),
                   child: Text(
                     '${widget.imgNames[item]} L',
                     style: Theme.of(context).textTheme.titleMedium,
@@ -119,16 +119,14 @@ class _SimpleImage extends StatelessWidget {
     final image = Image.asset(
       gaplessPlayback: true,
       'assets/bags/$imageName.webp',
-      width: size.width * .8 ,
-      height: size.height * .9,
+      width: size.width * .75,
+      height: size.height * .80,
     );
     if(showImageFromBottom){
       return Image.asset(
         gaplessPlayback: true,
         'assets/bags/$imageName.webp',
         fit: BoxFit.fill,
-        // width: size.width * .8 ,
-        // height: size.height * .9,
       );
     }
     late final double padding;

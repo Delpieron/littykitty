@@ -11,36 +11,6 @@ import 'package:responsive_framework/responsive_breakpoints.dart';
 
 class BentoniteLavend extends StatelessWidget {
   const BentoniteLavend({super.key});
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   final bloc = GetIt.I.get<BentoniteLavendBloc>();
-  //   final mainBloc = GetIt.I.get<MainPageBloc>();
-  //   final isLargerThanMobile = ResponsiveBreakpoints.of(context).largerThan(MOBILE);
-  //   return AsyncBuilder<int>(
-  //     stream: mainBloc.selectedPage.stream.distinct((previous, next) => previous == next),
-  //     initial: 0,
-  //     builder: (context, i) {
-  //       return AnimatedOpacity(
-  //         duration: const Duration(milliseconds: 400),
-  //         opacity: i! <= 3 ? 1 : 0,
-  //         child: AsyncBuilder<int>(
-  //           stream: bloc.selectedSize,
-  //           initial: 0,
-  //           builder: (context, sizeIndex) {
-  //             return BaseViewWithText(
-  //               imageName: isLargerThanMobile ? 'lavend$sizeIndex' : null,
-  //               imgNames: isLargerThanMobile ? null : _imgNames,
-  //               description: Strings.bentoniteLavend,
-  //               title: 'BENTONITE\nLAWENDA',
-  //               underTextWidget: ChangeLiterDotRow(sizeIndex: sizeIndex!, bloc: bloc),
-  //             );
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     final bloc = GetIt.I.get<BentoniteLavendBloc>();
@@ -69,7 +39,7 @@ class BentoniteLavend extends StatelessWidget {
   }
 }
 
-final Map<String, int> _imgNames = {
+final Map<String, double> _imgNames = {
   'lavend0': 5,
   'lavend1': 10,
   'lavend2': 25,
