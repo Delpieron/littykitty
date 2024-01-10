@@ -84,7 +84,7 @@ class PredefinedAppbar extends StatelessWidget implements PreferredSizeWidget {
         child: Padding(
           padding: EdgeInsets.only(left: isLargerThanMobile ? 20 : 16, top: 8),
           child: Image(
-            image: const AssetImage('assets/kitty_logoF.png'),
+            image: const AssetImage('assets/kitty_logo.png'),
             filterQuality: FilterQuality.high,
             width: width > 850
                 ? 160
